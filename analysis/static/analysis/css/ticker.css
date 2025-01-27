@@ -1,0 +1,41 @@
+/* Stock Ticker Styling */
+.stock-ticker {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #555; /* Grey background */
+    color: #fff; /* White text */
+    overflow: hidden;
+    padding: 10px 0;
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+}
+
+.ticker-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.ticker-move {
+    display: inline-block;
+    white-space: nowrap;
+    animation: ticker-scroll 40s linear infinite; /* Adjust speed here */
+}
+
+.ticker-item {
+    display: inline-block;
+    margin-right: 40px;
+    font-size: 16px;
+    color: #fff; /* White text */
+}
+
+/* Keyframes for infinite scrolling */
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistical Arbitrage</title>
+    <!-- <link rel="stylesheet" href="../../static/analysis/css/ticker.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #2f0749;
+        }
+
+        h1 {
+            text-align: center;
+            background-color: #343333;
+            color: #ffffff;
+            padding: 20px 0;
+            margin: 0;
+            box-shadow: 0 0px 20px #000000;
+        }
+
+        h2, h3 {
+            color: #2f0749;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            margin-bottom: 100px;
+            background: #fff;
+            padding: 50px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            background-color: #2f0749;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.6s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #6110c4;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 5px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Stock Ticker Styling */
+        .stock-ticker {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #343333;
+            color: #fff;
+            overflow: hidden;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .ticker-wrap {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker-scroll 40s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            margin-right: 40px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        @keyframes ticker-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+
+    </style>
+
+    <script src="../../static/analysis/js/ticker.js"></script>
+
+</head>
+
+<body>
+    <h1>Statistical Arbitrage Software Demo</h1>
+    <div class="container">
+        <h2>Select stock tickers</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Calculate ADF Statistic</button>
+            
+        
+        
+        {% if result %}
+
+            {% if result.error %}
+                <p class="error-message">{{ result.error }}</p>
+
+            {% else %}
+                <h2>Results</h2>
+                    <p>ADF Statistic: {{ result.adf_statistic }}</p>
+                    <p>p-value: {{ result.p_value }}</p>
+
+                <h3>Critical Values</h3>
+                    <ul>
+                        {% for key, value in result.critical_values.items %}
+                            <li>{{ key }}: {{ value }}</li>
+                        {% endfor %}
+                    </ul>
+
+                <h3>{{result.significance}}</h3>
+
+            {% endif %}
+
+        {% endif %}
+
+           
+
+        {% if result and not result.error %}
+            <button type="submit" name="backtest">Run Backtest</button>
+        {% endif %}
+
+        {% if backtest_result %}
+            <h2>Backtest Results</h2>
+            <p>Annualized Return: {{ backtest_result.annualized_return1|floatformat:4 }}%</p>
+        {% endif %}
+
+    </form>
+    
+    </div>
+
+    <div class="stock-ticker">
+        <div class="ticker-wrap">
+            <div id="ticker-move" class="ticker-move"></div>
+        </div>
+    </div>
+
+</body>
+</html>
