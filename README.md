@@ -43,5 +43,5 @@ This project will be live on Vercel soon! Stay tuned for the deployment URL, whi
    git clone https://github.com/Dev-0S/StatisticalArbitrage.git
    cd StatisticalArbitrage
    pip install -r requirements.txt
-   python main.py
+   python manage.py
    
