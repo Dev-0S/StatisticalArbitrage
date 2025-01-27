@@ -41,7 +41,7 @@ This project will be live on Vercel soon! Stay tuned for the deployment URL, whi
 1. Clone the repository:  
    ```bash
    git clone https://github.com/Dev-0S/StatisticalArbitrage.git
-   cd StatisticalArbitrage
+   cd cointegration_app
    pip install -r requirements.txt
    python manage.py
    
